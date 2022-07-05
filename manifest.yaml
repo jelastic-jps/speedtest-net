@@ -28,7 +28,7 @@ onInstall:
 actions:
   setupSpeedtest:
     - cmd [vds]: |-
-        wget https://bintray.com/ookla/rhel/rpm -O /etc/yum.repos.d/bintray-ookla-rhel.repo
+        curl -s https://install.speedtest.net/app/cli/install.rpm.sh | sudo bash
         sudo yum install speedtest 
 
       user: root
