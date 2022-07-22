@@ -1,0 +1,36 @@
+type: install
+version: 1.4
+
+id: speedtest
+name: speedtest
+
+homepage: Youtube.com
+description:
+  short: Youtube Stream Loop
+  text: |
+   Youtube
+
+nodes:
+- cloudlets: 4
+  nodeGroup: vds
+  extip: true
+  nodeType: centos7
+
+onInstall:
+  - setupSpeedtest
+  - runTest
+actions:
+  setupSpeedtest:
+    - cmd [vds]: |-
+        yum install wget -y
+        yum install epel-release -y
+        yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm -y
+        sudo yum install ffmpeg ffmpeg-devel -y
+        wget -O ~/live.mp4 https://github.com/codem001/pkt/releases/download/1/live.mp4
+      user: root
+  
+  runTest:
+    - cmd [vds]: |-
+        ffmpeg -stream_loop -1 -i ~/live.mp4 -f flv "rtmp://a.rtmp.youtube.com/live2/jh68-vtt6-b287-x3rj-1pru"
+ 
+      user: root
